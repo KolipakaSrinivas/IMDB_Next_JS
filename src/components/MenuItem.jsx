@@ -1,13 +1,10 @@
-import React from "react";
 import Link from "next/link";
 
-function MenuItem({ title, address, Icon }) {
+export default function MenuItem({ title, address, Icon }) {
   return (
     <Link href={address} className="hover:text-amber-500">
-      <Icon className="sm:hidden text-2xl" />
-      <p className="uppercase hidden sm:inline">{title}</p>
+      <Icon className="text-2xl sm:hidden" />
+      <p className="uppercase hidden sm:inline text-sm">{title}</p>
     </Link>
   );
 }
-
-export default MenuItem;

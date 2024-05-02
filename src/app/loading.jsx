@@ -1,7 +1,11 @@
 import React from "react";
-
-function loading() {
-  return <div>loading</div>;
-}
+import Image from "next/image";
+const loading = () => {
+  return (
+    <div className="flex justify-center">
+      <Image src="spinner.svg" alt="loading..." />
+    </div>
+  );
+};
 
 export default loading;
