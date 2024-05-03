@@ -2,11 +2,17 @@ import Image from "next/image";
 
 export default async function MoviePage({ params }) {
   const movieId = params.id;
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.API_KEY}`
-  );
-  const movie = await res.json();
-
+  async function fetchData() {
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.API_KEY}`
+      );
+      return await res.json();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  const movie = await fetchData();
   return (
     <div className="w-full">
       <div className="p-4 md:pt-8 flex flex-col md:flex-row content-center max-w-6xl mx-auto md:space-x-6">
