@@ -3,20 +3,27 @@ import Results from "@/components/Results";
 const API_KEY = process.env.API_KEY;
 async function page({ searchParams }) {
   const genre = searchParams || "fetchTrending";
-  const res = await fetch(
-    `https://api.themoviedb.org/3${
-      genre === "fetchTopRated" ? `/movie/top_rated` : `/trending/all/week`
-    }?api_key=${API_KEY}&language=en-US&page=1`,
-    { next: { revalidate: 10000 } }
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
+
+  async function fetchData() {
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3${
+          genre === "fetchTopRated" ? `/movie/top_rated` : `/trending/all/week`
+        }?api_key=${API_KEY}&language=en-US&page=1`,
+        { next: { revalidate: 10000 } }
+      );
+
+      return await res.json();
+    } catch (error) {
+      throw new Error("Failed to fetch data");
+    }
   }
-  const data = await res.json();
-  const results = data.results;
+
+  const results = await fetchData();
+
   return (
     <div>
-      <Results results={results} />
+      <Results results={results.results} />
     </div>
   );
 }
